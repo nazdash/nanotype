@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- MISC/META -->
+		<title>Nanotype - Online Text Editor</title>
+		<meta charset="utf-8">
+		<meta name="description" content="Nanotype is a free online text editor: minimal, private, plain text and Markdown. Your text stays in your browser, it works offline, and a share link carries the text inside itself.">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, viewport-fit=cover" />
+
+		<!-- For search engines and AI assistants (facts in src/facts.mjs; test/seo.test.mjs
+		     keeps these in step with it). The canonical address is the new one: the old
+		     address serves this same page and hands documents over by script. -->
+		<link rel="canonical" href="https://nanotype.app/">
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="Nanotype">
+		<meta property="og:title" content="Nanotype - Online Text Editor">
+		<meta property="og:description" content="Nanotype is a free online text editor: minimal, private, plain text and Markdown. Your text stays in your browser, it works offline, and a share link carries the text inside itself.">
+		<meta property="og:url" content="https://nanotype.app/">
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:title" content="Nanotype - Online Text Editor">
+		<meta name="twitter:description" content="Nanotype is a free online text editor: minimal, private, plain text and Markdown. Your text stays in your browser, it works offline, and a share link carries the text inside itself.">
+		<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Nanotype","alternateName":"Zen","url":"https://nanotype.app/","description":"Nanotype is a free online text editor: minimal, private, plain text and Markdown. Your text stays in your browser, it works offline, and a share link carries the text inside itself.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","inLanguage":"en","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Unit","url":"https://unit.app/"}}</script>
+
+		<!-- The saved theme's background before anything else loads, so a dark theme
+		     never flashes white. Documents arriving from the old address carry the
+		     theme at the end of the fragment (see move.js). No saved theme means
+		     "system": light or dark by the operating system. -->
+		<script>try{var s=localStorage.getItem('scheme')||(location.hash.match(/\.(scheme-[a-z-]+)$/)||[])[1]||'scheme-system';if(s==='scheme-system')s=matchMedia('(prefers-color-scheme: dark)').matches?'scheme-dark-and-white':'scheme-light';document.documentElement.className=s}catch(e){}</script>
+
+		<!-- CSS -->
+		<link href="css/style.css" rel="stylesheet" media="all">
+
+		<!-- Icon -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<meta name="theme-color" content="#ffffff">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="Nanotype">
+
+	</head>
+
+	<body class="scheme-light size-s" style="display: none">
+		<!-- The pixel wordmark, reused in the empty state and in About -->
+		<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+			<symbol id="wordmark" viewBox="0 0 31 6">
+				<path d="M0 1h2v1h-2zM0 2h1v1h-1zM2 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1z"/>
+				<path d="M4 1h3v1h-3zM6 2h1v1h-1zM4 3h3v1h-3zM4 4h1v1h-1zM6 4h1v1h-1z"/>
+				<path d="M8 1h2v1h-2zM8 2h1v1h-1zM10 2h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1z"/>
+				<path d="M12 1h3v1h-3zM12 2h1v1h-1zM14 2h1v1h-1zM12 3h1v1h-1zM14 3h1v1h-1zM12 4h3v1h-3z"/>
+				<path d="M16 0h1v1h-1zM16 1h3v1h-3zM16 2h1v1h-1zM16 3h1v1h-1zM18 3h1v1h-1zM16 4h3v1h-3z"/>
+				<path d="M20 1h1v1h-1zM22 1h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM20 3h1v1h-1zM22 3h1v1h-1zM20 4h3v1h-3zM22 5h1v1h-1z"/>
+				<path d="M24 1h3v1h-3zM24 2h1v1h-1zM26 2h1v1h-1zM24 3h3v1h-3zM24 4h1v1h-1zM24 5h1v1h-1z"/>
+				<path d="M28 1h3v1h-3zM28 2h1v1h-1zM30 2h1v1h-1zM28 3h1v1h-1zM28 4h3v1h-3z"/>
+			</symbol>
+		</svg>
+
+		<div class="overlay" data-nosnippet>
+			<div class="description modal" role="dialog" aria-label="About Nanotype" tabindex="-1">
+				<svg class="wordmark" role="img" aria-label="Nanotype"><use href="#wordmark"></use></svg>
+				<p>A private place to write.</p>
+				<ul>
+					<li>You open the page and type.</li>
+					<li>It is a local app. Everything you write lives in this browser's own storage, and that is the only copy. There is no server, no account, and nothing is ever sent out.</li>
+					<li>A share link carries the text inside itself. A private link is locked with a seed word that Nanotype never sees.</li>
+					<li>After the first visit it works offline. It installs as an app.</li>
+					<li>It reads and writes plain text and Markdown.</li>
+					<li class="for-keys">Every command has a key. <kbd data-keys="Mod K"></kbd> lists them.</li>
+					<li class="for-touch">Every command is in <b>menu</b>, at the bottom.</li>
+					<li>Visits and commands are counted with cookie-free <a href="https://posthog.com" target="_blank">PostHog</a>. The text is never part of that.</li>
+				</ul>
+				<pre class="divider" aria-hidden="true">▄▁▁▁▁▁▁▁▁▁▁▁</pre>
+				<p>Nanotype was Zen until October 2026.</p>
+				<p class="links">
+					<a href="mailto:support@unit.app">support@unit.app</a> ·
+					<a href="https://forms.gle/bFebcfkb7D4qwcY9A" target="_blank">suggest an improvement</a> ·
+					<a href="https://ko-fi.com/nanotype" target="_blank">buy me a coffee</a>
+				</p>
+				<p class="credits">
+					Nanotype Mono is a build of <a href="https://github.com/be5invis/Iosevka" target="_blank">Iosevka</a>.
+					Sans is <a href="https://rsms.me/inter/" target="_blank">Inter</a>, serif is <a href="https://fonts.google.com/specimen/Literata" target="_blank">Literata</a>.
+					Typewriter sounds by <a href="https://freesound.org/people/juskiddink/sounds/75105/" target="_blank">juskiddink</a>,
+					seed words from the <a href="https://www.eff.org/dice" target="_blank">EFF word list</a>. Since 2016. © <a href="https://unit.app/" target="_blank">Unit</a> · <a href="https://github.com/nazdash/nanotype/blob/main/LICENSE" target="_blank">AGPL-3.0</a> · <a href="https://github.com/nazdash/nanotype" target="_blank">source</a>.
+				</p>
+			</div>
+
+			<div class="help-modal modal" role="dialog" aria-label="Keys" tabindex="-1">
+				<h1>Keys</h1>
+				<table class="keys">
+					<tr><th colspan="2">Documents</th></tr>
+					<tr><td>Menu of all commands</td><td><kbd data-keys="Mod K"></kbd> with nothing selected</td></tr>
+					<tr><td>Documents</td><td><kbd data-keys="Mod Shift O"></kbd>, then <kbd data-keys="Mod D"></kbd> duplicates, <kbd data-keys="Mod ⌫"></kbd> moves to the trash</td></tr>
+					<tr><td>Trash: a deleted document stays 30 days</td><td>last row of the documents list</td></tr>
+					<tr><td>New document</td><td><kbd data-keys="Mod Shift D"></kbd> or <kbd data-keys="Mod Alt N"></kbd></td></tr>
+					<tr><td>Import a .txt, .md or backup .json file</td><td><kbd data-keys="Mod O"></kbd> or drop it on the page</td></tr>
+					<tr><td>Export everything as .md (zip) or .json; a backup folder</td><td>in the menu</td></tr>
+					<tr><th colspan="2">Document</th></tr>
+					<tr><td>Share as a link</td><td><kbd data-keys="Mod Shift S"></kbd></td></tr>
+					<tr><td>Export as .md</td><td><kbd data-keys="Mod S"></kbd>; as .txt in the menu</td></tr>
+					<tr><td>Print or save as PDF</td><td><kbd data-keys="Mod P"></kbd></td></tr>
+					<tr><td>Insert the date, the time, a table, a code block, a task, a link, a heading, frontmatter</td><td>type <kbd>/</kbd> at the start of a line, then the word</td></tr>
+					<tr><th colspan="2">Editor</th></tr>
+					<tr><td>Line numbers</td><td><kbd data-keys="Mod Shift U"></kbd></td></tr>
+					<tr><td>Focus mode</td><td><kbd data-keys="Mod D"></kbd></td></tr>
+					<tr><td>Contents: the headings in the margin on a wide window, else as a list to jump from</td><td><kbd data-keys="Mod Shift L"></kbd>; <i>go to heading…</i> in the menu</td></tr>
+					<tr><td>Markdown preview</td><td><kbd data-keys="Mod Shift M"></kbd></td></tr>
+					<tr><td>Spellcheck</td><td><kbd data-keys="Mod Shift ;"></kbd></td></tr>
+					<tr><td>Fullscreen</td><td><kbd data-keys="Mod Shift F"></kbd></td></tr>
+					<tr><th colspan="2">Appearance</th></tr>
+					<tr><td>Size: s, m, l</td><td><kbd data-keys="Mod +"></kbd> larger, <kbd data-keys="Mod -"></kbd> smaller; past l the browser zooms</td></tr>
+					<tr><td>Theme: system, light, dark, green, sand, night</td><td><kbd data-keys="Mod Shift E"></kbd></td></tr>
+					<tr><td>Font: mono, sans, serif</td><td><kbd data-keys="Mod Shift A"></kbd></td></tr>
+					<tr><td>Cursor: block, thin</td><td><kbd data-keys="Mod Shift K"></kbd></td></tr>
+					<tr><td>Key sounds: off, soft, click, blip, typewriter</td><td><kbd data-keys="Mod Shift Y"></kbd></td></tr>
+					<tr><th colspan="2">Editing</th></tr>
+					<tr><td>Move the line up or down</td><td><kbd data-keys="Alt ↑"></kbd> <kbd data-keys="Alt ↓"></kbd></td></tr>
+					<tr><td>Indent, outdent (four spaces; the selected lines, or the caret's)</td><td><kbd>Tab</kbd> <kbd data-keys="Shift Tab"></kbd>, or <kbd data-keys="Mod ]"></kbd> <kbd data-keys="Mod ["></kbd></td></tr>
+					<tr><td>This line as a heading 1–6; plain text again</td><td><kbd data-keys="Mod Alt 1"></kbd> … <kbd data-keys="Mod Alt 6"></kbd>, <kbd data-keys="Mod Alt 0"></kbd></td></tr>
+					<tr><td>Open an address in the text</td><td><kbd data-keys="Mod"></kbd>-click it</td></tr>
+					<tr><td>In a table: next cell, previous cell; a new row after the last</td><td><kbd>Tab</kbd>, <kbd data-keys="Shift Tab"></kbd></td></tr>
+					<tr><td>Link selected words to an address</td><td><kbd data-keys="Mod K"></kbd>, or paste the address over them</td></tr>
+					<tr><td>Tidy: join broken lines, even spaces and tabs, bullets to markdown (the selection, or all)</td><td><kbd data-keys="Mod Alt T"></kbd></td></tr>
+					<tr><th colspan="2">Markdown</th></tr>
+					<tr><td>Bold</td><td><kbd data-keys="Mod B"></kbd></td></tr>
+					<tr><td>Italic</td><td><kbd data-keys="Mod I"></kbd></td></tr>
+					<tr><td>Link</td><td><kbd data-keys="Mod K"></kbd> with text selected</td></tr>
+					<tr><td>Code</td><td><kbd data-keys="Mod E"></kbd></td></tr>
+					<tr><td>Make this line a task (<code>- [ ]</code>), and back; with lines selected, all of them</td><td><kbd data-keys="Mod Shift Enter"></kbd></td></tr>
+					<tr><td>Tick a task (<code>- [ ]</code> to <code>- [x]</code>, and back); with lines selected, all of them</td><td><kbd data-keys="Mod Enter"></kbd> on its line; or click its box in the preview</td></tr>
+					<tr><td>Copy a code block</td><td>the word <i>copy</i> in its corner, in the preview</td></tr>
+					<tr><td>Lists and quotes</td><td><kbd>Enter</kbd> continues the list. <kbd>Enter</kbd> on an empty item ends it.</td></tr>
+				</table>
+				<p>The line at the bottom counts words. Select text to count the selection. Click the count to shorten it.</p>
+			</div>
+
+			<!-- Share: explain first, ask second. The link and the seed word are shown
+			     side by side at the end, each with its own copy, so neither is lost. -->
+			<div class="share-modal modal" role="dialog" aria-label="Share this document" tabindex="-1">
+				<div class="share-step" data-step="choose">
+					<h1>Share this document</h1>
+					<p>Nanotype puts the text inside the link itself. Nothing is stored anywhere: not on a server, not by Nanotype. The link is the only copy, and it works for as long as someone keeps it.</p>
+					<p>It is a snapshot of the text as it is now, not a shared document: later changes, yours or theirs, do not travel.</p>
+					<p class="share-long" hidden></p>
+					<ul class="choices">
+						<li class="choice" data-choice="public"><span class="label">public link</span><span class="hint">Anyone who has the link can read the text.</span></li>
+						<li class="choice" data-choice="private"><span class="label">private link</span><span class="hint">The text is locked with a seed word. Send the seed word another way; without it the link is noise.</span></li>
+					</ul>
+					<p class="foot for-keys">↑↓ select · enter choose · esc close</p>
+				</div>
+				<div class="share-step" data-step="seed">
+					<h1>Seed word</h1>
+					<label class="field"><input class="seed-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"></label>
+					<p>Four words Nanotype chose at random. Keep them, or type your own. A short seed is easy to guess.</p>
+					<ul class="choices">
+						<li class="choice" data-choice="make"><span class="label">make the link</span><span class="hint">The seed word is not kept anywhere. Lost means lost.</span></li>
+					</ul>
+					<p class="foot for-keys">enter continue · esc back</p>
+				</div>
+				<div class="share-step" data-step="ready">
+					<h1></h1>
+					<p class="share-note"></p>
+					<label class="field"><span class="field-name">link</span><input class="link-output" type="text" readonly spellcheck="false"></label>
+					<p class="field-note share-size"></p>
+					<ul class="choices">
+						<li class="choice" data-choice="copy-link"><span class="label">copy link</span><span class="hint"></span></li>
+						<li class="choice for-touch" data-choice="share-link"><span class="label">share link…</span><span class="hint"></span></li>
+					</ul>
+					<div class="share-seed">
+						<label class="field"><span class="field-name">seed</span><input class="seed-output" type="text" readonly spellcheck="false"></label>
+						<ul class="choices">
+							<li class="choice" data-choice="copy-seed"><span class="label">copy seed word</span><span class="hint"></span></li>
+						</ul>
+					</div>
+					<p class="foot for-keys">↑↓ select · enter copy · esc close</p>
+				</div>
+			</div>
+
+			<!-- Backup: where the text lives, and how to keep a copy that outlives the browser -->
+			<div class="backup-modal modal" role="dialog" aria-label="A copy that outlives this browser" tabindex="-1">
+				<h1>A copy that outlives this browser</h1>
+				<p>Your text lives in this browser's own storage. That is private, and it is also fragile: it goes when the browser's data is cleared, and it does not follow you to another device.</p>
+				<p class="for-folder">On this browser Nanotype can keep a folder up to date as you write: every document as a <b>.md</b> file, and everything in one <b>.json</b>. Pick the folder once; if it is in iCloud or Dropbox, the copy follows you.</p>
+				<p class="for-no-folder"></p>
+				<p class="backup-state"></p>
+				<ul class="choices">
+					<li class="choice for-folder" data-choice="choose"><span class="label">keep a copy in a folder…</span><span class="hint">Chrome, Edge, Brave on a computer</span></li>
+					<li class="choice for-folder-paused" data-choice="resume"><span class="label">resume the folder copy</span><span class="hint">the browser asks once after a restart</span></li>
+					<li class="choice for-folder-on" data-choice="stop"><span class="label">stop the folder copy</span><span class="hint">the files stay; nothing more is written</span></li>
+					<li class="choice" data-choice="export-zip"><span class="label">export everything as .md (zip)</span><span class="hint">every document as a file, in one .zip</span></li>
+					<li class="choice" data-choice="export"><span class="label">export everything as .json</span><span class="hint">every document and setting, for import</span></li>
+				</ul>
+				<p class="for-touch">On an iPhone or iPad, add Nanotype to the home screen: Safari then keeps its storage instead of clearing it after 7 days.</p>
+				<p class="foot for-keys">↑↓ select · enter run · esc close</p>
+			</div>
+
+			<!-- Shown once to a visitor who arrived from the old address -->
+			<div class="moved-modal modal" role="dialog" aria-label="Zen is now Nanotype" tabindex="-1">
+				<svg class="wordmark" role="img" aria-label="Nanotype"><use href="#wordmark"></use></svg>
+				<p>Zen is now Nanotype. Same app, new address: <b>nanotype.app</b>.</p>
+				<p>Your documents and settings came with you. Update your bookmark, and add the app to your home screen again if you had it there.</p>
+				<ul class="choices">
+					<li class="choice" data-choice="ok"><span class="label">ok</span></li>
+				</ul>
+			</div>
+
+			<!-- A private link asks for its seed word before anything is shown -->
+			<!-- A locked link: the text is inside the link, encrypted; the seed word
+			     decrypts it here. Said plainly, so neither a person nor a browser's
+			     phishing model reads it as a sign-in. -->
+			<div class="unlock-modal modal" role="dialog" aria-label="This link is locked" tabindex="-1">
+				<h1>This link is locked</h1>
+				<p>The text travels inside the link, scrambled. The seed word that came with the link unscrambles it here, in your browser. Nothing is sent anywhere, and there is no account.</p>
+				<label class="field"><span class="field-name">seed word</span><input class="unlock-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"></label>
+				<p class="unlock-error" aria-live="polite"></p>
+				<ul class="choices">
+					<li class="choice" data-choice="open"><span class="label">unlock</span></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Commands: plain words, nearly invisible until the pointer comes close.
+		     Only what is used often or shows a state; everything else is in the menu. -->
+		<nav class="ui" aria-label="Commands" data-nosnippet>
+			<div class="commands">
+				<div class="group">
+					<button class="documents" data-hint="documents" data-keys="Mod Shift O"><span class="count"></span>docs</button>
+					<button class="new-doc" data-hint="new document" data-keys="Mod Shift D">new</button>
+					<button class="import-shared for-shared" data-hint="a copy of this document among your own, to edit" data-keys="Mod O">import to edit</button>
+					<button class="share" data-hint="share this document as a link" data-keys="Mod Shift S">share</button>
+				</div>
+				<div class="group">
+					<button class="lines" data-hint="line numbers" data-keys="Mod Shift U">lines <b>off</b></button>
+					<button class="focus" data-hint="focus mode" data-keys="Mod D">focus <b>off</b></button>
+					<button class="markdown" data-hint="markdown preview beside the text" data-keys="Mod Shift M">markdown <b>off</b></button>
+					<button class="contents for-shared" data-hint="the headings, as a list" data-keys="Mod Shift L">contents <b>off</b></button>
+					<button class="fullscreen" data-hint="fullscreen" data-keys="Mod Shift F">fullscreen <b>off</b></button>
+				</div>
+				<div class="group">
+					<button class="font-size" data-hint="size of the text, and the page with it" data-keys="Mod +">size <b>s</b></button>
+					<button class="color-flip" data-hint="theme: system, light, dark, green, sand, night" data-keys="Mod Shift E">theme <b>light</b></button>
+					<button class="font-flip" data-hint="font of the text" data-keys="Mod Shift A">font <b>mono</b></button>
+					<button class="caret" data-hint="cursor" data-keys="Mod Shift K">cursor <b>block</b></button>
+					<button class="sfx-mute" data-hint="key sounds: off, soft, click, blip, typewriter" data-keys="Mod Shift Y">sound <b>off</b></button>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Status line: document and counts on the left, hints and messages on the right -->
+		<div class="status">
+			<div class="status-left">
+				<span class="status-title"></span>
+				<button class="statistic" data-hint="click to shorten or lengthen the count"></button>
+			</div>
+			<div class="status-right">
+				<span class="status-message"></span>
+				<span class="status-said" aria-live="polite"></span>
+				<button class="palette" data-hint="every command, with its key" data-keys="Mod K">menu</button>
+				<button class="help" data-hint="keyboard shortcuts">keys</button>
+				<button class="backup" data-hint="a copy that outlives this browser">backup</button>
+				<button class="about" data-hint="about Nanotype">about</button>
+			</div>
+		</div>
+
+		<!-- One list for the command menu, the documents and the save formats -->
+		<div class="picker" role="dialog" aria-label="Menu" tabindex="-1" data-nosnippet>
+			<label class="picker-input"><span aria-hidden="true">&gt;</span><input type="text" spellcheck="false" autocomplete="off" autocapitalize="off"></label>
+			<ul class="picker-list" role="listbox"></ul>
+			<p class="picker-foot"></p>
+		</div>
+
+		<input type="file" class="file-input" accept=".txt,.md,.markdown,.text,.json,text/plain,text/markdown,application/json" multiple hidden>
+
+		<!-- Contents: the document's headings, in the left margin on a wide screen -->
+		<nav class="contents-panel" aria-label="Contents"></nav>
+
+		<section>
+			<article contenteditable="true" class="content" role="textbox" aria-multiline="true" aria-label="Text" lang="" spellcheck="true" autocorrect="off" autocapitalize="off"></article>
+			<div class="markdown-showcase"></div>
+			<div class="block-caret" aria-hidden="true"></div>
+
+			<!-- Shown while the document is empty -->
+			<div class="welcome" aria-hidden="true">
+				<svg class="wordmark"><use href="#wordmark"></use></svg>
+				<pre class="divider">▄▁▁▁▁▁▁▁▁▁▁▁</pre>
+				<p>Type your text. When you return it will still be here.</p>
+				<p>It never leaves this browser.</p>
+				<p class="for-keys"><kbd data-keys="Mod K"></kbd> lists every command.</p>
+				<p class="for-touch"><b>menu</b> lists every command.</p>
+				<p class="for-new-address" data-nosnippet>Used Zen before? Open <a href="https://zen.unit.app/">zen.unit.app</a> once to bring your documents here.</p>
+			</div>
+		</section>
+
+		<!-- JS -->
+		<script src="js/bundle.js"></script>
+	</body>
+</html>

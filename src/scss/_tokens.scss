@@ -1,0 +1,116 @@
+/*********************************************
+ * COLOUR SCHEMES
+ * Every component reads these tokens; a scheme only sets them.
+ *********************************************/
+
+.scheme-light {
+	color-scheme: light;
+	--bg: #ffffff;
+	--fg: #000000;
+	--muted: #767676;
+	--line: rgba(0, 0, 0, 0.28);          // structural hairlines
+	--fill: rgba(0, 0, 0, 0.07);          // faint fill, e.g. inline code
+	--veil: rgba(255, 255, 255, 0.72);    // behind dialogs
+	--band: rgba(0, 0, 0, 0.13);          // behind the current line's number
+	--accent: #{$accent-blue};
+	--select: rgba(0, 163, 224, 0.25);
+	// code blocks only (see "Code" below)
+	--code-keyword: #cf222e;
+	--code-string: #0a3069;
+	--code-number: #0550ae;
+	--code-function: #8250df;
+	--code-type: #953800;
+	--code-attr: #116329;
+	--code-comment: #6e7781;
+}
+
+.scheme-dark-and-white {
+	color-scheme: dark;
+	--bg: #000000;
+	--fg: #ededed;
+	--muted: #8a8a8a;
+	--line: rgba(255, 255, 255, 0.32);
+	--fill: rgba(255, 255, 255, 0.1);
+	--veil: rgba(0, 0, 0, 0.72);
+	--band: rgba(255, 255, 255, 0.2);
+	--accent: #{$accent-blue};
+	--select: rgba(0, 163, 224, 0.38);
+	--code-keyword: #ff7b72;
+	--code-string: #a5d6ff;
+	--code-number: #79c0ff;
+	--code-function: #d2a8ff;
+	--code-type: #ffa657;
+	--code-attr: #7ee787;
+	--code-comment: #8b949e;
+}
+
+// Sand (kept under its historical class name so saved settings still apply)
+.scheme-solarized {
+	color-scheme: light;
+	--bg: #f8f3e8;
+	--fg: #2b2820;
+	--muted: #8f8672;
+	--line: rgba(43, 40, 32, 0.28);
+	--fill: rgba(43, 40, 32, 0.08);
+	--veil: rgba(248, 243, 232, 0.72);
+	--band: rgba(43, 40, 32, 0.13);
+	--accent: #{$accent-blue};
+	--select: rgba(0, 163, 224, 0.25);
+	--code-keyword: #b3412e;
+	--code-string: #2d5a7a;
+	--code-number: #3b6ea8;
+	--code-function: #6f4ea6;
+	--code-type: #8a5a1a;
+	--code-attr: #3c6e3c;
+	--code-comment: #8f8672;
+}
+
+// Night: deep blue-black, like a dark app at night
+.scheme-night {
+	color-scheme: dark;
+	--bg: #0f1a24;
+	--fg: #e9eef2;
+	--muted: #7f93a3;
+	--line: rgba(233, 238, 242, 0.3);
+	--fill: rgba(233, 238, 242, 0.09);
+	--veil: rgba(15, 26, 36, 0.72);
+	--band: rgba(233, 238, 242, 0.18);
+	--accent: #{$accent-blue};
+	--select: rgba(0, 163, 224, 0.38);
+	--code-keyword: #ff7b72;
+	--code-string: #a5d6ff;
+	--code-number: #79c0ff;
+	--code-function: #d2a8ff;
+	--code-type: #ffa657;
+	--code-attr: #7ee787;
+	--code-comment: #8b949e;
+}
+
+// Green phosphor
+.scheme-dark-and-green {
+	color-scheme: dark;
+	--bg: #050805;
+	--fg: #3cf26e;
+	--muted: #1e8a40;
+	--line: rgba(60, 242, 110, 0.35);
+	--fill: rgba(60, 242, 110, 0.12);
+	--veil: rgba(5, 8, 5, 0.72);
+	--band: rgba(60, 242, 110, 0.22);
+	--accent: #3cf26e;
+	--select: rgba(60, 242, 110, 0.3);
+	// stays phosphor: shades of the one green, with white for the names
+	--code-keyword: #8dffac;
+	--code-string: #2ec45a;
+	--code-number: #9cffb8;
+	--code-function: #e6ffee;
+	--code-type: #c8ffd6;
+	--code-attr: #6ff58f;
+	--code-comment: #1e8a40;
+}
+
+// The theme class is also put on <html> by an inline script before the CSS loads,
+// so the page has its colour from the first paint
+html {
+	background: var(--bg, #ffffff);
+	--ui-idle: 0.16;   // the interface at rest; raised by "increase contrast" (see Accessibility)
+}

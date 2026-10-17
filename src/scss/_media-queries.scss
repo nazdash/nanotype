@@ -1,0 +1,237 @@
+// Two things change the interface here, and they are separate. A screen that
+// cannot hover (a phone, a tablet) has no "faint until hovered", no keyboard
+// selection and no key shortcuts: that is `touch-interface`. A screen narrower
+// than 768 px, whatever the pointer, has no room for the command column or a
+// floating menu: that is `small-screen`. A narrow window on a computer gets the
+// second without the first, so its arrows, Enter and key hints keep working
+// (a 2026-10-14 report: no selected row in the menu at 700 px on a laptop).
+
+.for-touch {
+	display: none;
+}
+
+// Nothing hovers and nothing is typed on keys
+@mixin touch-interface {
+	.for-keys {
+		display: none;
+	}
+
+	.for-touch {
+		display: revert;
+	}
+
+	// Nothing to hover, so the status line is readable at rest
+	.status {
+		button, .status-title {
+			opacity: 0.5;
+		}
+
+		// finger-sized targets without moving the text
+		button {
+			padding: 10px 6px;
+			margin: -10px -6px;
+		}
+	}
+
+	.picker-item {
+		// there is no keyboard selection to show; the row reverses while it is pressed
+		&.selected {
+			background: none;
+			color: inherit;
+
+			.hint, .act {
+				color: var(--muted);
+				opacity: 1;
+			}
+		}
+
+		&:active {
+			background: var(--fg);
+			color: var(--bg);
+		}
+
+		// no hover to reveal them, so row actions are always there, on a line of
+		// their own under the name so the name keeps the full width
+		flex-wrap: wrap;
+		row-gap: 2px;
+
+		.label {
+			flex-basis: 100%;
+		}
+
+		.acts {
+			display: flex;
+			order: 0;
+			margin-left: 0;
+		}
+
+		.act {
+			padding: 6px 0;
+		}
+
+		.hint {
+			margin-left: auto;
+		}
+	}
+
+	// key hints are for keyboards
+	.picker-foot {
+		display: none;
+	}
+
+	.choice {
+		&.for-touch {
+			display: flex;
+		}
+
+		// nothing to select with keys; the row reverses while it is pressed
+		&.selected {
+			background: none;
+			color: inherit;
+
+			.hint {
+				color: var(--muted);
+				opacity: 1;
+			}
+		}
+
+		&:active {
+			background: var(--fg);
+			color: var(--bg);
+		}
+	}
+}
+
+// No room for the column or a floating menu
+@mixin small-screen {
+	.ui {
+		display: none;
+	}
+
+	.status {
+		font-size: 14px;
+
+		// everything else is in the menu
+		.about, .backup, .status .help {
+			display: none;
+		}
+	}
+
+	// The menu takes the width of the screen and sits at the top, clear of the keyboard
+	.picker {
+		top: max(12px, env(safe-area-inset-top));
+		left: 12px;
+		right: 12px;
+		width: auto;
+		transform: none;
+		font-size: 16px;
+	}
+
+	// 16px or more keeps iOS from zooming the page when the field is focused
+	.picker-input {
+		padding: 12px 14px;
+
+		input {
+			font-size: 16px;
+		}
+	}
+
+	// as tall as the visible screen allows; --app-height shrinks when the keyboard is up
+	.picker-list {
+		max-height: calc(var(--app-height, 100vh) - 110px);
+	}
+
+	.picker-item {
+		padding: 11px 14px;
+	}
+
+	.choice {
+		padding: 9px 12px;
+	}
+
+	.modal {
+		font-size: 15px;
+		max-height: calc(100dvh - 24px);
+
+		// 16px or more keeps iOS from zooming the page when the field is focused
+		.field input {
+			font-size: 16px;
+		}
+	}
+
+	// the name of what is shown has no other place on a small screen
+	.shared .status-title {
+		display: inline;
+	}
+}
+
+@media (hover: none) {
+	@include touch-interface;
+	@include small-screen;
+}
+
+// A narrow window on a computer has no margin for the command column (a 2019
+// user report: a sidebar over the text took the clicks at 960 px). The column
+// goes; `menu` in the status line and the keys reach everything, as on a phone.
+// The limit grows with the size, since the text column does (1060 px at s).
+@each $name, $scale in $scales {
+	@media only screen and (max-width: round(1060px * $scale)) {
+		.size-#{$name} .ui {
+			display: none;
+		}
+	}
+}
+
+// Phones, small tablets and narrow windows, whatever the pointer
+@media only screen and (max-width: 767px) {
+	@include small-screen;
+
+	body {
+		padding: 24px max(16px, env(safe-area-inset-right)) 24px max(16px, env(safe-area-inset-left));
+	}
+
+	section {
+		max-width: none;
+	}
+
+	.status {
+		left: max(14px, env(safe-area-inset-left));
+		right: max(14px, env(safe-area-inset-right));
+		bottom: max(12px, env(safe-area-inset-bottom));
+	}
+
+	.status-title {
+		display: none;
+	}
+
+	.modal {
+		padding: 20px;
+		width: calc(100vw - 24px);
+	}
+
+	.welcome {
+		right: 0;
+	}
+
+	// a phone has no margin to hang the gutter in, so here it takes room from the text
+	.line-numbers article > div,
+	.line-numbers article > p,
+	.line-numbers article:not(:has(> div, > p)) {
+		padding-left: 4.5ch;
+
+		&::before {
+			left: 0;
+			width: 4ch;
+			padding-right: 0.75ch;
+		}
+	}
+
+	.line-numbers .welcome {
+		left: 4.5ch;
+	}
+
+	.markdown-mode.line-numbers article.content {
+		margin-left: 0;
+		padding-left: 0;
+	}
+}

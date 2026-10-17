@@ -1,0 +1,40 @@
+{
+  "name": "nanotype",
+  "version": "1.1.0",
+  "description": "Nanotype: a free, minimal, private online text editor",
+  "scripts": {
+    "build": "NODE_ENV=production gulp default",
+    "dev": "NODE_ENV=development gulp dev",
+    "test": "node --test test/share.test.mjs test/markdown.test.mjs test/names.test.mjs test/tidy.test.mjs test/seo.test.mjs",
+    "test:browser": "node test/browser/run.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nazdash/nanotype.git"
+  },
+  "author": "Nazir Dashtiev",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://nanotype.app/",
+  "private": true,
+  "browserslist": "> 0.25%, not dead",
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "highlight.js": "^11.12.0",
+    "markdown-it": "^14.3.2",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-task-lists": "^2.1.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "del": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.77.0",
+    "webpack": "^5.90.0",
+    "webpack-stream": "^7.0.0"
+  }
+}

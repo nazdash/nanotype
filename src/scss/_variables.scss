@@ -1,0 +1,15 @@
+// Nanotype's look is plain: one mono typeface, black and white, hairlines and
+// whitespace instead of cards, shadows or rounded corners. Sans and serif exist only as options for the text itself.
+
+$font-mono: 'Nanotype Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+$font-serif: 'Literata', Georgia, 'Times New Roman', serif;
+$accent-blue: #00a3e0;      // the one accent
+$step: 75ms linear;         // motion is fast and mechanical; no easing, no long fades
+// The size setting scales the page: --scale is 1, 1.2 or 1.47 for s, m, l (ui.js, applyFontLook),
+// so the interface words, the picker and the column's width follow the text, and
+// the column keeps its measure in characters. Breakpoints cannot read a variable:
+// $scales gives each size its own, generated with the same numbers.
+$scales: (s: 1, m: 1.2, l: 1.4667);
+$ui-size: calc(12px * var(--scale, 1));   // interface text
+$ui-near: 0.55;             // the interface near the pointer; at rest it is nearly invisible (--ui-idle)

@@ -1,0 +1,90 @@
+/*********************************************
+ * STATUS LINE
+ * Document and counts on the left; hints, messages and two links on the right
+ *********************************************/
+
+.status {
+	position: fixed;
+	left: 20px;
+	right: 20px;
+	bottom: 16px;
+	z-index: 2;
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 3ch;
+	font-size: $ui-size;
+	line-height: 1.5;
+	pointer-events: none;
+	transition: opacity $step;
+
+	button, .status-title, .status-message {
+		opacity: var(--ui-idle);
+		transition: opacity $step;
+	}
+
+	button {
+		pointer-events: auto;
+
+		// the item under the pointer, over the "near" rule below
+		&:hover {
+			opacity: 1 !important;
+		}
+	}
+
+	// two clusters, one at each end: the one the pointer is in brightens, not the other
+	.status-left:hover button, .status-left:hover .status-title,
+	.status-right:hover button {
+		opacity: $ui-near;
+	}
+}
+
+.status-left, .status-right {
+	display: flex;
+	align-items: baseline;
+	gap: 2ch;
+	min-width: 0;
+	white-space: nowrap;
+}
+
+.status-title:empty {
+	display: none;
+}
+
+.status-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 40ch;
+}
+
+// hints and messages are meant to be read, so they are not faint; a note is muted
+// like every other note, and stands 20px from the words, the page's edge inset,
+// so the three words sit in the same frame on both sides
+.status .status-message {
+	opacity: $ui-near;
+	color: var(--muted);
+	margin-right: calc(20px - 2ch);
+
+	&:empty {
+		margin-right: 0;
+	}
+}
+
+// what a screen reader is told (see renderStatus in ui.js); off screen, never seen
+.status-said {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+// the folder copy needs a click to go on: readable without hovering
+.status .backup.attention {
+	opacity: $ui-near;
+}
+
+.statistic.selection {
+	color: var(--accent);
+	opacity: 0.8;
+}

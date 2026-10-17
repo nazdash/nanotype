@@ -1,0 +1,167 @@
+/*********************************************
+ * PICKER
+ * One list for the command menu, the documents and the save formats.
+ * A hairline box; the selected row is shown in reverse video.
+ *********************************************/
+
+.picker {
+	display: none;
+	position: fixed;
+	top: 18vh;
+	left: 50%;
+	transform: translateX(-50%);
+	width: min(calc(560px * var(--scale, 1)), calc(100vw - 32px));
+	z-index: 4;
+	background: var(--bg);
+	border: 1px solid var(--fg);
+	font-size: calc(13px * var(--scale, 1));
+	line-height: 1.5;
+
+	&.visible {
+		display: block;
+	}
+
+	// the menu is the long one: higher up and taller, so its groups can be read
+	&[data-kind="commands"] {
+		top: 10vh;
+
+		.picker-list {
+			max-height: min(74vh, 720px);
+		}
+	}
+
+	// under the caret: the slash commands
+	&.at-caret {
+		transform: none;
+		width: calc(420px * var(--scale, 1));   // the longest hint fits (/task, /image)
+	}
+}
+
+.picker-input {
+	display: flex;
+	gap: 1ch;
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--line);
+
+	input {
+		flex: 1;
+		min-width: 0;
+		font: inherit;
+		color: inherit;
+		background: none;
+		border: 0;
+		padding: 0;
+
+		// the browser's placeholder grey is no theme's colour
+		&::placeholder {
+			color: var(--muted);
+			opacity: 1;
+		}
+	}
+
+	.picker.plain & {
+		display: none;
+	}
+}
+
+.picker-list {
+	list-style: none;
+	margin: 0;
+	padding: 4px 0;
+	max-height: min(50vh, 420px);
+	overflow-y: auto;
+}
+
+// A row: the label, then its note (muted), then the key alone at the right edge,
+// so the keys line up down the page as in the Keys dialog
+.picker-item {
+	display: flex;
+	align-items: baseline;
+	gap: 2ch;
+	padding: 3px 12px;
+	cursor: pointer;
+
+	.label, .hint {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.hint {
+		flex: 1;
+	}
+
+	.hint, .act, .key {
+		color: var(--muted);
+	}
+
+	.key {
+		flex-shrink: 0;
+		margin-left: auto;
+		white-space: nowrap;
+	}
+
+	// Row actions (duplicate, delete) show on the selected row only, at the right
+	// edge: they appear as the pointer reaches a row, so they must be away from
+	// the name, which is what a click on a row is for
+	.acts {
+		display: none;
+		order: 1;
+		margin-left: auto;
+		flex-shrink: 0;
+		gap: 2ch;
+	}
+
+	.act:hover {
+		text-decoration: underline;
+	}
+
+	&.current .label::before {
+		content: '* ';
+	}
+
+	// reverse video
+	&.selected {
+		background: var(--fg);
+		color: var(--bg);
+
+		.hint, .act, .key {
+			color: inherit;
+			opacity: 0.7;
+		}
+
+		.acts {
+			display: flex;
+		}
+	}
+}
+
+// A group's name above its rows: bold but muted, since it is not a row and does
+// nothing. The Keys table's headers are drawn the same way.
+.picker-heading {
+	padding: 12px 12px 3px;
+	font-weight: 700;
+	color: var(--muted);
+
+	&:first-child {
+		padding-top: 4px;
+	}
+}
+
+.picker-empty {
+	padding: 3px 12px;
+	color: var(--muted);
+}
+
+.picker-foot {
+	margin: 0;
+	padding: 6px 12px;
+	border-top: 1px solid var(--line);
+	color: var(--muted);
+	font-size: $ui-size;
+
+	&:empty {
+		display: none;
+	}
+}

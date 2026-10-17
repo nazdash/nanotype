@@ -1,0 +1,112 @@
+/*********************************************
+ * BASE
+ *********************************************/
+
+* {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}
+
+html {
+	overflow: hidden;
+	-webkit-text-size-adjust: 100%;     // no automatic text inflation in landscape on phones
+	text-size-adjust: 100%;
+}
+
+html, body {
+	padding: 0;
+	margin: 0;
+	// --app-height is the visible height in px; ui.js sets it on touch devices so the
+	// page ends at the on-screen keyboard instead of running underneath it
+	height: var(--app-height, 100%);
+	font-family: $font-mono;
+}
+
+body {
+	padding: 48px 80px 0;
+	// the scroll area ends above the status line, so text never passes under its
+	// words and a click near the bottom always reaches the text
+	height: calc(var(--app-height, 100%) - 44px);
+	overflow-y: scroll;
+	// keeps the caret away from the edges when the browser scrolls it into view
+	scroll-padding: 48px 0 160px;
+	min-width: 200px;
+	width: 100%;
+	background: var(--bg);
+	color: var(--fg);
+}
+
+::selection {
+	background: var(--select);
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--line) transparent;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--line);
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+a {
+	text-decoration: none;
+	color: var(--accent);
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+button {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;     // no double-tap zoom delay
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+kbd {
+	font: inherit;
+	white-space: nowrap;
+}
+
+.hidden {
+	opacity: 0 !important;
+	visibility: hidden;
+}
+
+// The "nanotype" wordmark, drawn on a pixel grid
+.wordmark {
+	display: block;
+	width: 186px;
+	height: 36px;
+	fill: currentColor;
+	shape-rendering: crispEdges;
+}
+
+// A rule made of block characters
+.divider {
+	margin: 1.5em 0;
+	font: inherit;
+	line-height: 1;
+	white-space: pre;
+	overflow: hidden;
+}

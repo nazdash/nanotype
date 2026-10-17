@@ -1,0 +1,160 @@
+/*********************************************
+ * COMMANDS
+ * A column of plain words on the right. No icons.
+ *********************************************/
+
+.ui {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 2;
+	font-size: $ui-size;
+	line-height: 1;
+	text-align: right;
+	// on a short window the column scrolls instead of running under the status line
+	max-height: calc(100vh - 20px - 64px);
+	overflow-y: auto;
+	scrollbar-width: none;
+	// the column's box never takes a click meant for the text; only its words do
+	pointer-events: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	&:hover button {
+		opacity: $ui-near;
+	}
+}
+
+.commands {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	transition: opacity $step;
+
+	button {
+		pointer-events: auto;
+		padding: 5px 0;
+		opacity: var(--ui-idle);
+		white-space: nowrap;
+		transition: opacity $step;
+
+		&:hover {
+			opacity: 1 !important;
+		}
+
+		// the current value of a setting, e.g. "font mono"; a switch says on or off,
+		// in the same colour as everything else
+		b {
+			font-weight: 700;
+		}
+
+		// how many documents there are, shown before "docs" while the pointer is on it
+		.count {
+			display: none;
+			margin-right: 1ch;
+		}
+
+		&:hover .count {
+			display: inline;
+		}
+
+		// a refusal, said before the word for a moment ("nothing to share")
+		.note {
+			display: none;
+			margin-right: 1ch;
+			color: var(--muted);
+
+			&.visible {
+				display: inline;
+			}
+		}
+	}
+
+	// four groups; the gap is between groups, whatever is shown inside them
+	.group {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+	}
+
+	.group + .group {
+		margin-top: 12px;
+	}
+}
+
+/*********************************************
+ * CONTENTS
+ * The headings of the document, in the left margin, clear of the line-number
+ * gutter. Only where there is a margin: a wide screen with a pointer, not in
+ * the markdown split view. Elsewhere the same command opens the picker.
+ *********************************************/
+
+.contents-panel {
+	display: none;
+	position: fixed;
+	top: 48px;
+	left: 20px;
+	width: min(260px, calc((100vw - 760px * var(--scale, 1)) / 2 - 9ch - 20px));
+	max-height: calc(100vh - 120px);
+	overflow-y: auto;
+	scrollbar-width: none;   // scrolls, like the command column, without showing a bar
+	z-index: 2;
+	font-size: $ui-size;
+	line-height: 1.5;
+	transition: opacity $step;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	// one breakpoint per size (see $scales): beside the text from 1280 px at s,
+	// beside the markdown split (1400 px wide) from 1760 px, where a wide window
+	// leaves room; contents.js uses the same numbers
+	@each $name, $scale in $scales {
+		@media (min-width: round(1280px * $scale)) and (hover: hover) {
+			.size-#{$name}.contents-on:not(.markdown-mode) &,
+			.size-#{$name}.shared.contents-on & {   // beside the rendered text, which stands alone there
+				display: block;
+			}
+		}
+
+		@media (min-width: round(1760px * $scale)) and (hover: hover) {
+			.size-#{$name}.contents-on.markdown-mode & {
+				display: block;
+				width: min(260px, calc((100vw - 1400px * var(--scale, 1)) / 2 - 9ch - 20px));
+			}
+		}
+	}
+
+	button {
+		display: block;
+		max-width: 100%;
+		padding: 2px 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+		opacity: var(--ui-idle);
+		transition: opacity $step;
+
+		&:hover {
+			opacity: 1 !important;
+		}
+	}
+
+	&:hover button {
+		opacity: $ui-near;
+	}
+
+	.empty {
+		color: var(--muted);
+		opacity: $ui-near;
+	}
+
+	// hidden with the rest of the interface while typing
+	&.hidden {
+		opacity: 0;
+	}
+}

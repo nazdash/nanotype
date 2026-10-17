@@ -1,0 +1,41 @@
+/*********************************************
+ * PRINT
+ *********************************************/
+
+@media print {
+	canvas.ripples {
+		display: none;
+	}
+
+	body {
+		overflow: visible;
+		background: #fff !important;
+		color: #000 !important;
+	}
+
+	.ui, .status, .block-caret, .overlay, .picker, .welcome, .code-block .copy {
+		display: none !important;
+	}
+
+	// numbers are for the screen
+	.line-numbers article::before,
+	.line-numbers article > div::before,
+	.line-numbers article > p::before {
+		display: none;
+	}
+
+	.markdown-mode {
+		section {
+			display: block;
+		}
+
+		article.content {
+			display: none;
+		}
+
+		.markdown-showcase {
+			height: auto;
+			overflow: visible;
+		}
+	}
+}

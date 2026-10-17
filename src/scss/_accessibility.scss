@@ -1,0 +1,21 @@
+/*********************************************
+ * ACCESSIBILITY
+ * Two settings people switch on in the operating system, once for every app.
+ * Each block is false unless its setting is on: nothing here changes the page
+ * for anyone else.
+ *********************************************/
+
+// Reduce motion: nothing moves. One rule, so nothing added later is missed.
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+// Increase contrast: the interface rests readable instead of nearly invisible
+@media (prefers-contrast: more) {
+	html {
+		--ui-idle: #{$ui-near};
+	}
+}

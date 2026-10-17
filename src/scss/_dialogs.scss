@@ -1,0 +1,259 @@
+/*********************************************
+ * DIALOGS (About, Keys)
+ *********************************************/
+
+.overlay {
+	position: fixed;
+	display: none;
+	inset: 0;
+	z-index: 3;
+	background: var(--veil);
+}
+
+.modal {
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: min(36rem, calc(100vw - 32px));
+	max-height: calc(100vh - 32px);
+	overflow-y: auto;
+	padding: 28px 32px;
+	background: var(--bg);
+	color: var(--fg);
+	border: 1px solid var(--fg);
+	font-size: calc(13px * var(--scale, 1));
+	line-height: 1.5;
+
+	h1 {
+		font-size: 1.125rem;
+		font-weight: 700;
+		margin: 0 0 1.5em;
+	}
+
+	p {
+		margin: 1.5em 0 0;
+	}
+
+	ul {
+		margin: 1.5em 0 0;
+		padding-left: 2ch;
+	}
+
+	.wordmark {
+		margin-bottom: 1.5em;
+	}
+
+	// a row of links, like the status line: the dots between them are muted
+	.links {
+		margin-top: 0.5em;
+		color: var(--muted);
+	}
+
+	.credits {
+		color: var(--muted);
+	}
+
+	kbd {
+		font-weight: 700;
+	}
+}
+
+// Keys: hairlines between rows, the text colour under each group name
+.keys {
+	width: 100%;
+	border-collapse: collapse;
+
+	th, td {
+		padding: 0.3em 2ch 0.3em 0;
+		text-align: left;
+		vertical-align: top;
+		border-bottom: 1px solid var(--line);
+	}
+
+	// a group's name: a table header, as in the markdown preview (bold, the text
+	// colour, its rule in the text colour), with a capital since the rows are sentences
+	th {
+		padding-top: 1.5em;
+		font-weight: 700;
+		border-bottom-color: var(--fg);
+	}
+
+	tr:first-child th {
+		padding-top: 0;
+	}
+
+	td:first-child {
+		width: 50%;
+	}
+}
+
+// Choices inside a dialog: rows like the picker's, the selected one in reverse video
+.choices {
+	list-style: none;
+	margin: 1.5em -12px 0;
+	padding: 0;
+}
+
+.choice {
+	display: flex;
+	align-items: baseline;
+	gap: 2ch;
+	padding: 3px 12px;
+	cursor: pointer;
+
+	.label {
+		flex-shrink: 0;
+	}
+
+	.hint {
+		color: var(--muted);
+	}
+
+	&.selected {
+		background: var(--fg);
+		color: var(--bg);
+
+		.hint {
+			color: inherit;
+			opacity: 0.7;
+		}
+	}
+}
+
+// A one-line field in a dialog: a hairline under it, nothing else
+.modal .field {
+	display: flex;
+	gap: 1ch;
+	margin: 1.5em 0 0;
+	padding: 4px 0;
+	border-bottom: 1px solid var(--line);
+
+	input {
+		flex: 1;
+		min-width: 0;
+		font: inherit;
+		color: inherit;
+		background: none;
+		border: 0;
+		padding: 0;
+	}
+}
+
+.modal .foot {
+	color: var(--muted);
+	font-size: $ui-size;
+}
+
+.unlock-error {
+	color: var(--muted);
+
+	&:empty {
+		display: none;
+	}
+}
+
+// the backup dialog shows the rows that apply to this browser and state
+.for-folder, .for-folder-on, .for-folder-paused {
+	display: none;
+}
+
+.backup-modal {
+	&.folder .for-no-folder { display: none; }
+	&.folder .for-folder { display: block; }
+	&.folder .choice.for-folder { display: flex; }
+	&.folder-on .choice.for-folder-on { display: flex; }
+	&.folder-on .choice.for-folder { display: none; }
+	&.folder-paused .choice.for-folder-paused { display: flex; }
+	&.folder-paused .choice.for-folder { display: none; }
+}
+
+.share-step {
+	display: none;
+
+	&.visible {
+		display: block;
+	}
+}
+
+.field-name {
+	color: var(--muted);
+	min-width: 4ch;
+}
+
+// a line under a field, e.g. the length of the link
+.modal .field-note {
+	margin: 4px 0 0;
+	color: var(--muted);
+	font-size: $ui-size;
+}
+
+// shown for a private link only
+.share-seed {
+	display: none;
+
+	.share-step.private & {
+		display: block;
+	}
+}
+
+/*********************************************
+ * SHARED DOCUMENT
+ * A document opened from a share link, read-only until it is imported
+ *********************************************/
+
+.for-shared {
+	display: none;
+}
+
+.shared {
+	.for-shared {
+		display: block;
+	}
+
+	// commands that act on the reader's own documents, need a caret, or are for
+	// writing: a reader has import, the look (font, size, theme) and about
+	.documents, .new-doc, .open-file, .share, .focus, .lines, .markdown, .sfx-mute, .fullscreen, .caret, .status .backup, .status .palette, .status .help {
+		display: none;
+	}
+
+	// markdown on: the text rendered, alone in the column; nothing to edit beside it
+	&.markdown-mode {
+		section {
+			display: block;
+			max-width: calc(760px * var(--scale, 1));
+			height: auto;
+			padding-top: 0;
+			padding-bottom: 200px;
+		}
+
+		article.content {
+			display: none;
+		}
+
+		.markdown-showcase {
+			height: auto;
+			overflow: visible;
+			padding-right: 0;
+		}
+	}
+
+	// the boxes are drawn, not ticked: the text is read-only here
+	.task-list-item input {
+		pointer-events: none;
+	}
+
+	.welcome, .block-caret {
+		display: none !important;
+	}
+
+	article {
+		cursor: default;
+	}
+
+	// the text is shown as it is, whatever the reader's own modes
+	article > div, article > p {
+		opacity: 1 !important;
+	}
+}
