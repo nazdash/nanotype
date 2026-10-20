@@ -2,6 +2,10 @@
 
 What changed for the people who use Nanotype, by day. Newest first. Updated with every push to `main` (see `AGENTS.md`).
 
+## 2026-10-20
+
+- The menu finds the export commands when you type "download": each export row says so in its hint.
+
 ## 2026-10-17
 
 - About is shorter: the fonts, the sounds and the seed words are named; the rest of what the app is made with is in `CREDITS.md` in the repository. Unit is named once, in the copyright line, with its link; the page description no longer says "by Unit".

@@ -940,8 +940,8 @@ export default (function () {
         if (shared.active) {
             if (shared.doc) {
                 add('document', 'import to edit', sharing.importShared, { hint: 'a copy of this document among your own', key: key('Mod O') });
-                add('document', 'export as .md', () => files.saveText('md'), { key: key('Mod S') });
-                add('document', 'export as .txt', () => files.saveText('txt'));
+                add('document', 'export as .md', () => files.saveText('md'), { hint: 'download', key: key('Mod S') });
+                add('document', 'export as .txt', () => files.saveText('txt'), { hint: 'download' });
                 add('document', 'print or save as PDF…', onPrintClick, { key: key('Mod P') });
             } else if (shared.locked) {
                 add('document', 'unlock with the seed word…', sharing.openUnlock);
@@ -952,8 +952,8 @@ export default (function () {
             add('documents', 'today', docs.today, { hint: 'the document for today, opened or started' });
             add('documents', 'import a file (.txt, .md)…', files.openFilePicker, { key: key('Mod O') });
             add('documents', 'import a backup (.json)…', files.openFilePicker);
-            add('documents', 'export everything as .md (zip)', files.exportEverythingZip, { hint: 'every document as a file' });
-            add('documents', 'export everything as .json', files.exportEverything, { hint: 'every document and setting' });
+            add('documents', 'export everything as .md (zip)', files.exportEverythingZip, { hint: 'download every document as a file' });
+            add('documents', 'export everything as .json', files.exportEverything, { hint: 'download every document and setting' });
             add('documents', 'backup…', files.openBackup, { hint: 'a copy that outlives this browser' });
 
             if (documents.trash().length) {
@@ -961,8 +961,8 @@ export default (function () {
             }
 
             add('document', 'share as a link…', sharing.onShareClick, { key: key('Mod Shift S') });
-            add('document', 'export as .md', () => files.saveText('md'), { key: key('Mod S') });
-            add('document', 'export as .txt', () => files.saveText('txt'));
+            add('document', 'export as .md', () => files.saveText('md'), { hint: 'download', key: key('Mod S') });
+            add('document', 'export as .txt', () => files.saveText('txt'), { hint: 'download' });
             add('document', 'print or save as PDF…', onPrintClick, { key: key('Mod P') });
             add('document', 'tidy', onTidyClick, { hint: 'join broken lines, one blank line, no tabs; the selection, or all', key: key('Mod Alt T') });
 
