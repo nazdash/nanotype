@@ -1,6 +1,8 @@
 # Contributing
 
-Nanotype is an opinionated product: small on purpose, and the roadmap is ours. Issues are welcome and we are glad to fix what is broken; an improvement we cannot promise, however good, because most of them fail the question we ask of everything, "what if we did not build it". What helps most:
+Nanotype is an opinionated product. It is small on purpose, and the roadmap is ours. Issues are welcome: a bug, we are glad to fix. An improvement we cannot promise, however good it is; most would make the app bigger, and that is the one thing it must not become.
+
+What helps most:
 
 - **A bug, with steps to reproduce.** Browser, what you did, what you saw, what you expected. If a document is involved, a share link of a text that shows it (never one you would not want read).
 - **A small fix, with a test.** One change per pull request, in the file where the behaviour lives (`AGENTS.md` says how the code is laid out), with a check in `test/` or `test/browser/`. Say what a person using the app would notice; that line goes into `CHANGELOG.md`.
