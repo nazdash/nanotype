@@ -8,7 +8,7 @@ Everything you write stays in your browser (`localStorage`); nothing is sent to 
 
 - So the privacy claim can be checked: `src/js/components/stats.js` is the whole of what leaves the browser, `docs/analytics.md` says what it means, and the Content-Security-Policy in `vercel.json` has the browser enforce it: the page may connect to its own domain only.
 - So the app can outlive us: it is a static site, `npm run build` makes it, any host serves it (`DEPLOY.md`).
-- Issues are welcome, especially a bug with steps to reproduce. The roadmap is ours and follows `PRINCIPLES.md`: feature pull requests are rarely taken; a small fix with a test is.
+- Issues are welcome, especially a bug with steps to reproduce. The roadmap is ours and follows `PRINCIPLES.md`: feature pull requests are rarely taken; a small fix with a test is (`CONTRIBUTING.md`).
 - No support promises; the address is the one in About.
 - Licence: [AGPL-3.0](LICENSE), copyright Nazir Dashtiev. Use it, change it, host it; a changed copy that people use must publish its source under the same licence and keep the notice in About. The name Nanotype and the wordmark are not part of the licence. What the app is made with, and under what terms, is in `CREDITS.md`.
 
