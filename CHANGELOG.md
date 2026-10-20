@@ -4,6 +4,7 @@ What changed for the people who use Nanotype, by day. Newest first. Updated with
 
 ## 2026-10-20
 
+- The share dialog says that a link cannot be taken back: whoever has it has the text.
 - The menu finds the export commands when you type "download": each export row says so in its hint.
 
 ## 2026-10-17
