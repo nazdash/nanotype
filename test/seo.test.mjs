@@ -36,7 +36,7 @@ test('About says the same about privacy, the maker and the former name', () => {
     // About, in its own words, names the counts and keeps the text out of them
     assert.ok(about.includes('Visits and commands are counted with cookie-free PostHog. The text is never part of that.'), about);
     assert.ok(facts.privacy.includes('cookie-free PostHog'));
-    assert.ok(about.includes(`was ${facts.formerName} until`));
+    assert.ok(about.includes(`(prev. ${facts.formerName})`));
     assert.ok(about.includes(facts.publisher.email));
     assert.ok(html.includes(`href="${facts.publisher.url}"`));
 });

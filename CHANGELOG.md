@@ -4,6 +4,7 @@ What changed for the people who use Nanotype, by day. Newest first. Updated with
 
 ## 2026-10-20
 
+- About says again who makes it: "Nanotype (prev. Zen) is made by the Unit team."; the credits line reads "Since 2016 · AGPL-3.0 · source".
 - The share dialog says that a link cannot be taken back: whoever has it has the text.
 - The menu finds the export commands when you type "download": each export row says so in its hint.
 
