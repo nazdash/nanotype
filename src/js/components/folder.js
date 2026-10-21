@@ -17,7 +17,6 @@ export default (function () {
 
     let handle = null;
     let state = 'off';          // 'unsupported' | 'off' | 'on' | 'paused'
-    let written = {};           // id -> file name, as last written
     let timer = null;
     let listener = null;
 
@@ -96,7 +95,6 @@ export default (function () {
 
         // if the handle cannot be kept, the copy still works for this session
         await kv('readwrite', store => store.put(handle, KEY)).catch(() => {});
-        written = {};
         setState('on');
         await writeAll();
 
@@ -123,7 +121,6 @@ export default (function () {
 
     async function stop() {
         handle = null;
-        written = {};
         await kv('readwrite', store => store.delete(KEY)).catch(() => {});
         setState('off');
     }
@@ -140,7 +137,10 @@ export default (function () {
         await stream.close();
     }
 
-    // Everything, and the .md files that no longer have a document are removed
+    // Everything; then any .md in the documents folder that is not a document now
+    // is removed, so the folder mirrors the app after a rename, a delete or a
+    // reconnect alike. The folder is listed, not remembered: nothing survives a
+    // reload to remember with.
     async function writeAll() {
         if (state !== 'on') {
             return;
@@ -150,20 +150,20 @@ export default (function () {
             const data = backup.collect();
             const dir = await handle.getDirectoryHandle(DOCS_DIR, { create: true });
             const taken = new Set();
-            const next = {};
 
             for (const doc of data.documents) {
-                next[doc.id] = util.fileName(util.firstLine(doc.text), 'md', taken);
-                await writeFile(dir, next[doc.id], doc.text);
+                await writeFile(dir, util.fileName(util.firstLine(doc.text), 'md', taken), doc.text);
             }
 
-            for (const id of Object.keys(written)) {
-                if (!next[id] || next[id] !== written[id]) {
-                    await dir.removeEntry(written[id]).catch(() => {});
+            // file systems mostly ignore case; so does this
+            const kept = new Set([...taken].map(name => name.toLowerCase()));
+
+            for await (const entry of dir.values()) {
+                if (entry.kind === 'file' && entry.name.endsWith('.md') && !kept.has(entry.name.toLowerCase())) {
+                    await dir.removeEntry(entry.name).catch(() => {});
                 }
             }
 
-            written = next;
             await writeFile(handle, MANIFEST, JSON.stringify(data, null, 1));
         } catch (e) {
             setState('paused');
