@@ -4,6 +4,7 @@ What changed for the people who use Nanotype, by day. Newest first. Updated with
 
 ## 2026-10-22
 
+- In the sans and serif fonts every digit is the same width, so the numbers of a list, and the text after them, line up.
 - Backup: `stop the folder copy` is offered while the copy is paused too, not only while it runs; a folder that is gone can be let go without resuming first.
 
 ## 2026-10-21

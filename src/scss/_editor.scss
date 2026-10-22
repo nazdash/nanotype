@@ -28,15 +28,18 @@ article {
 	caret-color: var(--accent);   // the thin cursor in the block's colour
 }
 
-// Sans and serif apply to the text only; the interface stays mono
+// Sans and serif apply to the text only; the interface stays mono. Digits on one
+// width, so the numbers of a list line up as they do in mono (asked 2026-10-22).
 .font-scheme-sans-serif section {
 	font-family: $font-sans;
 	line-height: 1.5;
+	font-variant-numeric: tabular-nums;
 }
 
 .font-scheme-serif section {
 	font-family: $font-serif;
 	line-height: 1.5;
+	font-variant-numeric: tabular-nums;
 }
 
 // Empty document: the wordmark and two lines, below the first line of text
