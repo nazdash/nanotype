@@ -163,7 +163,7 @@
 	&.folder .for-no-folder { display: none; }
 	&.folder .for-folder { display: block; }
 	&.folder .choice.for-folder { display: flex; }
-	&.folder-on .choice.for-folder-on { display: flex; }
+	&.folder-on .choice.for-folder-on, &.folder-paused .choice.for-folder-on { display: flex; }
 	&.folder-on .choice.for-folder { display: none; }
 	&.folder-paused .choice.for-folder-paused { display: flex; }
 	&.folder-paused .choice.for-folder { display: none; }

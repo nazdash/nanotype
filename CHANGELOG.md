@@ -2,6 +2,10 @@
 
 What changed for the people who use Nanotype, by day. Newest first. Updated with every push to `main` (see `AGENTS.md`).
 
+## 2026-10-22
+
+- Backup: `stop the folder copy` is offered while the copy is paused too, not only while it runs; a folder that is gone can be let go without resuming first.
+
 ## 2026-10-21
 
 - The folder copy is an exact mirror again after a reconnect or a reload: a .md file left behind by a document renamed or deleted in the meantime is now removed on the next write. The backup dialog says the `documents` folder is Nanotype's.
