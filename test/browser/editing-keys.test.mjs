@@ -3,6 +3,7 @@ export const expect = {
     down: 'one||two|four https://nanotype.app/x, done|## five', upTwice: 'two|one||four https://nanotype.app/x, done|## five', upAtTopUnchanged: true, undoMove: 'one|two||four https://nanotype.app/x, done|## five',
     h2: '## four https://nanotype.app/x, done', h4: '#### four https://nanotype.app/x, done', h0: 'four https://nanotype.app/x, done', h5to0: 'five',
     indent: '    one', outdent: 'one', opened: 1, wordOpensNothing: 1, moveStaysVisible: true,
+    renumbered: '1. a|2. b|3. |4. c|5. d||7. x', undoRenumber: '1. a|2. b|3. c|4. d||7. x',
 };
 
 export default async (t) => {
@@ -43,6 +44,12 @@ export default async (t) => {
     await t.caretTo('line 1', 2); await t.ev(`document.body.scrollTop = 0`);
     for (let i = 0; i < 40; i++) await t.key('ArrowDown', 'ArrowDown', 1);
     out.moveStaysVisible = await t.ev(`(() => { let n = window.getSelection().anchorNode; while (n.parentNode !== document.querySelector('article')) n = n.parentNode; const r = n.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight })()`);
+
+    // Enter inside a numbered list renumbers what follows; a blank line ends the list; ⌘Z twice takes it all back (the renumbering, then the line with its marker)
+    await t.ev(`document.querySelector('article').innerHTML = ''; document.querySelector('article').focus()`);
+    await t.insert('1. a\n2. b\n3. c\n4. d\n\n7. x', 300);
+    await t.caretTo('2. b', 4); await t.key('Enter', 'Enter', 0, { text: '\r' }); await t.sleep(300); out.renumbered = await all();
+    await t.key('z', 'KeyZ', 4, { commands: ['undo'] }); await t.key('z', 'KeyZ', 4, { commands: ['undo'] }); out.undoRenumber = await all();
 
     return out;
 };

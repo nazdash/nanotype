@@ -642,7 +642,49 @@ export default (function () {
         // Let the browser make the new line first, then put the marker on it
         setTimeout(() => {
             document.execCommand('insertText', false, prefix);
+
+            if (/^\d/.test(next)) {
+                renumberAfter(caretBlock(), indent, parseInt(next, 10));
+            }
         }, 0);
+    }
+
+    // The numbered items after `block` at the same indent, renumbered to follow
+    // `number` (an item added in the middle of a list left 1 2 3 3; asked
+    // 2026-10-22). Deeper lines are passed over; a blank line or anything else
+    // ends the list. One edit, so ⌘Z takes it back with the marker.
+    function renumberAfter(block, indent, number) {
+        const blocks = [];
+        const text = [];
+        let changed = false;
+
+        for (let next = block && block.nextElementSibling; next; next = next.nextElementSibling) {
+            const line = lineText(next);
+            const match = line.match(/^(\s*)(\d+)([.)] )/);
+
+            if (!line.trim() || (match ? match[1].length < indent.length : line.search(/\S/) <= indent.length)) {
+                break;
+            }
+
+            if (!match || match[1].length > indent.length) {
+                text.push(line);
+            } else {
+                number += 1;
+                text.push(match[1] + number + match[3] + line.slice(match[0].length));
+                changed = changed || text[text.length - 1] !== line;
+            }
+
+            blocks.push(next);
+        }
+
+        if (!changed) {
+            return;
+        }
+
+        const caret = caretPath();
+
+        rewriteLines(blocks, (line, i) => text[i]);
+        restoreCaret(caret);
     }
 
 
