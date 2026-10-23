@@ -70,6 +70,25 @@
 	}
 }
 
+// the day's line, in the hint's place while no hint or message is shown, read
+// like a hint
+.status .status-launch {
+	opacity: $ui-near;
+	color: var(--muted);
+	text-decoration: none;
+	pointer-events: auto;
+	margin-right: calc(20px - 2ch);
+	transition: opacity $step;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.status .status-message:not(:empty) + .status-launch {
+	display: none;
+}
+
 // what a screen reader is told (see renderStatus in ui.js); off screen, never seen
 .status-said {
 	position: absolute;
