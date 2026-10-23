@@ -2,6 +2,10 @@
 
 What changed for the people who use Nanotype, by day. Newest first. Updated with every push to `main` (see `AGENTS.md`).
 
+## 2026-10-23
+
+- On phones the status line no longer shows `keys` beside `menu`; the keys are in the menu, as the dialog itself says.
+
 ## 2026-10-22
 
 - Enter inside a numbered list renumbers the items after the new one, so 1 2 3 stays 1 2 3 4 instead of 1 2 3 3.
