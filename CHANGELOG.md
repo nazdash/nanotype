@@ -4,6 +4,8 @@ What changed for the people who use Nanotype, by day. Newest first. Updated with
 
 ## 2026-10-23
 
+- On small screens the status line follows the text size (s, m, l) instead of staying at one size.
+- A long message in the status line wraps instead of running off the screen; on phones it takes the counter's place while it shows.
 - On phones the status line no longer shows `keys` beside `menu`; the keys are in the menu, as the dialog itself says.
 
 ## 2026-10-22

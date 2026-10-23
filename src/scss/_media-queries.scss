@@ -31,6 +31,13 @@
 			padding: 10px 6px;
 			margin: -10px -6px;
 		}
+
+		// a message takes the counter's room while it shows. Only where nothing
+		// hovers: with a pointer, the counter's own hint would hide the counter,
+		// end the hover, and loop
+		&:has(.status-message:not(:empty)) .status-left {
+			display: none;
+		}
 	}
 
 	.picker-item {
@@ -109,11 +116,31 @@
 	}
 
 	.status {
-		font-size: 14px;
+		font-size: calc(14px * var(--scale, 1));
+		align-items: flex-end;
 
 		// everything else is in the menu
 		.about, .backup, .help, .status-launch {
 			display: none;
+		}
+
+		// a message wraps, growing upward from the bottom; nothing else on the
+		// page moves
+		.status-message {
+			white-space: normal;
+			min-width: 0;
+		}
+
+		// the counter keeps its width; the message takes the rest and wraps in
+		// it, the words keep the right edge and `menu` the bottom line
+		.status-left {
+			flex-shrink: 0;
+		}
+
+		.status-right {
+			flex: 1;
+			justify-content: flex-end;
+			align-items: flex-end;
 		}
 	}
 
