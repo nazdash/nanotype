@@ -60,7 +60,7 @@ export default (function () {
         backupModal.classList.toggle('folder-paused', state === 'paused');
         backupModal.querySelector('.backup-state').textContent =
             state === 'on' ? `Copying to the folder "${folder.name()}" as you write.`
-            : state === 'paused' ? `The folder "${folder.name()}" is set; the browser needs a click to allow writing again.`
+            : state === 'paused' ? `The folder "${folder.name()}" is set; after a closed tab the browser asks once more. Choose “Allow on every visit” and it stops asking.`
             : '';
         app.openModal(backupModal);
         app.selectChoice(backupModal, app.visibleChoices(backupModal)[0]);
