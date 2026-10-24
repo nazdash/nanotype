@@ -2,7 +2,7 @@
 export const expect = {
     down: 'one||two|four https://nanotype.app/x, done|## five', upTwice: 'two|one||four https://nanotype.app/x, done|## five', upAtTopUnchanged: true, undoMove: 'one|two||four https://nanotype.app/x, done|## five',
     h2: '## four https://nanotype.app/x, done', h4: '#### four https://nanotype.app/x, done', h0: 'four https://nanotype.app/x, done', h5to0: 'five',
-    indent: '    one', outdent: 'one', opened: 1, wordOpensNothing: 1, moveStaysVisible: true,
+    indent: '    one', outdent: 'one', tabAtEnd: '    two', tabKeepsCaret: '    twox', shiftTab: 'twox', opened: 1, wordOpensNothing: 1, moveStaysVisible: true,
     renumbered: '1. a|2. b|3. |4. c|5. d||7. x', undoRenumber: '1. a|2. b|3. c|4. d||7. x',
 };
 
@@ -28,6 +28,9 @@ export default async (t) => {
 
     await t.caretTo('one', 1); await t.key(']', 'BracketRight', 4); out.indent = (await t.lines())[0];
     await t.key('[', 'BracketLeft', 4); out.outdent = (await t.lines())[0];
+    await t.caretTo('two', 3); await t.key('Tab', 'Tab', 0); out.tabAtEnd = (await t.lines())[1];
+    await t.type('x'); out.tabKeepsCaret = (await t.lines())[1];
+    await t.key('Tab', 'Tab', 8); out.shiftTab = (await t.lines())[1]; await t.key('Backspace', 'Backspace', 0);
 
     const b = JSON.parse(await t.ev(`(() => { const d = [...document.querySelector('article').childNodes].find(x => x.textContent.includes('https')); const rg = document.createRange(); const i = d.firstChild.data.indexOf('https'); rg.setStart(d.firstChild, i + 5); rg.setEnd(d.firstChild, i + 6); return JSON.stringify(rg.getBoundingClientRect()) })()`));
     await t.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: b.x + 2, y: b.y + b.height / 2, button: 'left', clickCount: 1, modifiers: 4 });

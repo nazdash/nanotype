@@ -2,6 +2,11 @@
 
 What changed for the people who use Nanotype, by day. Newest first. Updated with every push to `main` (see `AGENTS.md`).
 
+## 2026-10-24
+
+- Tab indents the whole line from wherever the caret is in it, as ⇧Tab and ⌘] already did; on a list item the bullet moves with the text. Before, Tab wrote four spaces at the caret.
+- The backup dialog says what to answer when the browser asks for the folder again: “Allow on every visit”. Until then it asked on every reopened tab.
+
 ## 2026-10-23
 
 - On small screens the status line follows the text size (s, m, l) instead of staying at one size.

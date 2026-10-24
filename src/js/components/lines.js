@@ -348,16 +348,20 @@ export default (function () {
         return true;
     }
 
-    // Tab / ⇧Tab and ⌘] / ⌘[: four spaces in or out, on the selection's lines or the caret's
+    // Tab / ⇧Tab and ⌘] / ⌘[: four spaces in or out, on the selection's lines or the
+    // caret's, from wherever the caret is in it (Tab wrote them at the caret until 2026-10-24)
     function indent(out) {
         const selectedText = util.getSelectedText();
+        const block = caretBlock();
 
         if (selectedText.length > 0) {
             util.replaceText(selectedText.split('\n').map(line => (out ? util.trimTabs(line) : '\xa0'.repeat(4) + line)).join('\n'));
-        } else if (out) {
-            outdentLine();
-        } else {
-            document.execCommand('insertText', false, '\xa0'.repeat(4));
+        } else if (block) {
+            const take = out ? lineText(block).match(/^[ \xa0]{0,4}/)[0].length : 0;
+
+            if (take || !out) {
+                editLineStart(block, 0, take, out ? '' : '\xa0'.repeat(4));
+            }
         }
     }
 
@@ -513,61 +517,6 @@ export default (function () {
         const selection = window.getSelection();
 
         selection.modify('move', 'backward', 'character');
-    }
-
-    // Shift+Tab with a caret: take up to four spaces off the start of its line
-    function outdentLine() {
-        const selection = window.getSelection();
-
-        if (!selection.rangeCount) {
-            return;
-        }
-
-        let block = selection.anchorNode;
-
-        while (block && block.parentNode !== app.article) {
-            block = block.parentNode;
-        }
-
-        if (!block) {
-            return;
-        }
-
-        const first = block.nodeType === 3 ? block : document.createTreeWalker(block, NodeFilter.SHOW_TEXT).nextNode();
-
-        if (!first) {
-            return;
-        }
-
-        let count = 0;
-
-        while (count < 4 && (first.data[count] === ' ' || first.data[count] === '\xa0')) {
-            count++;
-        }
-
-        if (!count) {
-            return;
-        }
-
-        const caretNode = selection.anchorNode;
-        const caretOffset = selection.anchorOffset;
-        const lead = document.createRange();
-
-        lead.setStart(first, 0);
-        lead.setEnd(first, count);
-        selection.removeAllRanges();
-        selection.addRange(lead);
-        document.execCommand('delete');
-
-        // the caret goes back where it was, minus what was removed before it
-        if (caretNode === first) {
-            const back = document.createRange();
-
-            back.setStart(first, Math.max(0, caretOffset - count));
-            back.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(back);
-        }
     }
 
     // Text of the current paragraph up to the caret
@@ -730,8 +679,6 @@ export default (function () {
         indent,
         continueListOnEnter,
         placeCaretInLink,
-        caretBlock,
-        editLineStart,
         caretPath,
         restoreCaret,
         lineText,

@@ -1170,11 +1170,7 @@ export default (function () {
             event.preventDefault();
             event.stopPropagation();
 
-            if (util.getSelectedText().length > 0 || event.code === 'BracketLeft') {
-                lines.indent(event.code === 'BracketLeft');
-            } else if (lines.caretBlock()) {
-                lines.editLineStart(lines.caretBlock(), 0, 0, '\xa0'.repeat(4));
-            }
+            lines.indent(event.code === 'BracketLeft');
 
             return;
         }
