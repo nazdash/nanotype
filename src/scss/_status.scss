@@ -70,9 +70,9 @@
 	}
 }
 
-// the day's line, in the hint's place while no hint or message is shown, read
-// like a hint
-.status .status-launch {
+// the day's line (see index.html), in the hint's place while no hint or message
+// is shown, read like a hint
+.status .status-note {
 	opacity: $ui-near;
 	color: var(--muted);
 	text-decoration: none;
@@ -85,7 +85,8 @@
 	}
 }
 
-.status .status-message:not(:empty) + .status-launch {
+.status .status-note:empty,
+.status .status-message:not(:empty) + .status-note {
 	display: none;
 }
 
